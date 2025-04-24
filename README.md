@@ -19,6 +19,8 @@ KeepGenertion Web 是基于[KeepSultan](https://github.com/Carzit/KeepSultan)开
 ### 2. 增强特性
 - **拖拽上传**：支持直接拖拽图片到上传区域
 - **智能随机生成**：参数填写范围每次自动随机
+- **地点天气温度**：在原项目基础上添加地点天气温度的生成并实现自定义功能
+- **字体改进**：使用keep官方字体
 
 
 ## 🛠️ 使用指南
@@ -32,6 +34,9 @@ KeepGenertion Web 是基于[KeepSultan](https://github.com/Carzit/KeepSultan)开
 
 ### 参数说明
 - 日期（date）
+- 地点（location）
+- 天气（weather）
+- 温度（temperature）
 - 结束时间（end_time）
 - 跑步总里程（total_km）
 - 运动时间（sport_time）
@@ -50,4 +55,3 @@ KeepGenertion Web 是基于[KeepSultan](https://github.com/Carzit/KeepSultan)开
 
 - 原项目开发者 [Carzit](https://github.com/Carzit)
 - 所有贡献者和用户
-- 
