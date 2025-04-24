@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keep数据生成器</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .range-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .range-input input {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-5">
+        <h1 class="mb-4 text-center">🏃♂️ Keep运动数据生成器</h1>
+
+        <form method="post" enctype="multipart/form-data">
+            <!-- 文件上传部分 -->
+            <div class="form-section">
+                <h4>🗺️ 地图设置</h4>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">预设地图</label>
+                        <select class="form-select" name="map_preset">
+                            {% for map_name in map_presets %}
+                            <option value="{{ map_name }}">{{ map_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text mt-2">选择一个预设地图</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">或上传自定义地图(预设地图将失效)</label>
+                        <input type="file" class="form-control" name="custom_map" accept="image/*">
+                        <div class="form-text mt-2">支持PNG/JPG格式，建议尺寸1000×800px</div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">用户头像（可选）</label>
+                        <input type="file" class="form-control" name="avatar" accept="image/*">
+                        <div class="form-text mt-2">不上传将使用默认头像</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 基础信息 -->
+            <div class="form-section">
+                <h4>👤 基本信息</h4>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">用户名</label>
+                        <input type="text" class="form-control" name="username" value="{{ default_config.username }}"
+                            required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">日期</label>
+                        <input type="date" class="form-control" name="date" value="{{ default_config.date }}" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">结束时间</label>
+                        <input type="time" class="form-control" name="end_time" value="{{ default_config.end_time }}"
+                            required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">地点</label>
+                        <input type="text" class="form-control" name="location" value="{{ default_config.location }}" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">天气</label>
+                        <input type="text" class="form-control" name="weather" value="{{ default_config.weather }}" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">温度</label>
+                        <input type="text" class="form-control" name="temperature" value="{{ default_config.temperature }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 运动参数 -->
+            <div class="form-section">
+                <h4>🏃 运动参数</h4>
+                <div class="row g-3">
+                    <!-- 总公里数 -->
+                    <div class="col-md-4">
+                        <label class="form-label">总公里数范围 (km)</label>
+                        <div class="range-input">
+                            <input type="number" step="0.01" class="form-control" name="total_km_min"
+                                value="{{ default_config.total_km[0] }}" min="0" required>
+                            <span>-</span>
+                            <input type="number" step="0.01" class="form-control" name="total_km_max"
+                                value="{{ default_config.total_km[1] }}" min="0" required>
+                        </div>
+                    </div>
+
+                    <!-- 运动时间 -->
+                    <div class="col-md-4">
+                        <label class="form-label">运动时间范围</label>
+                        <div class="range-input">
+                            <input type="text" class="form-control" name="sport_time_min"
+                                value="{{ default_config.sport_time[0] }}" required>
+                            <span>-</span>
+                            <input type="text" class="form-control" name="sport_time_max"
+                                value="{{ default_config.sport_time[1] }}" required>
+                        </div>
+                    </div>
+
+                    <!-- 总时间 -->
+                    <div class="col-md-4">
+                        <label class="form-label">总时间范围</label>
+                        <div class="range-input">
+                            <input type="text" class="form-control" name="total_time_min"
+                                value="{{ default_config.total_time[0] }}" required>
+                            <span>-</span>
+                            <input type="text" class="form-control" name="total_time_max"
+                                value="{{ default_config.total_time[1] }}" required>
+                        </div>
+                    </div>
+
+                    <!-- 累计爬升 -->
+                    <div class="col-md-4">
+                        <label class="form-label">累计爬升 (米)</label>
+                        <div class="range-input">
+                            <input type="number" class="form-control" name="cumulative_climb_min"
+                                value="{{ default_config.cumulative_climb[0] }}" min="0" required>
+                            <span>-</span>
+                            <input type="number" class="form-control" name="cumulative_climb_max"
+                                value="{{ default_config.cumulative_climb[1] }}" min="0" required>
+                        </div>
+                    </div>
+
+                    <!-- 平均步频 -->
+                    <div class="col-md-4">
+                        <label class="form-label">平均步频 (步/分钟)</label>
+                        <div class="range-input">
+                            <input type="number" class="form-control" name="average_cadence_min"
+                                value="{{ default_config.average_cadence[0] }}" min="0" required>
+                            <span>-</span>
+                            <input type="number" class="form-control" name="average_cadence_max"
+                                value="{{ default_config.average_cadence[1] }}" min="0" required>
+                        </div>
+                    </div>
+
+                    <!-- 运动负荷 -->
+                    <div class="col-md-4">
+                        <label class="form-label">运动负荷</label>
+                        <div class="range-input">
+                            <input type="number" class="form-control" name="exercise_load_min"
+                                value="{{ default_config.exercise_load[0] }}" min="0" required>
+                            <span>-</span>
+                            <input type="number" class="form-control" name="exercise_load_max"
+                                value="{{ default_config.exercise_load[1] }}" min="0" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">🚀 生成运动数据图</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
