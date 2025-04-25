@@ -19,8 +19,12 @@ KeepGenertion Web 是基于[KeepSultan](https://github.com/Carzit/KeepSultan)开
 ### 2. 增强特性
 - **拖拽上传**：支持直接拖拽图片到上传区域
 - **智能随机生成**：参数填写范围每次自动随机
+
+### 3. 功能改进
+- **修复生成逻辑问题**：修复步频超过三位数时生成图片的越界问题
 - **地点天气温度**：在原项目基础上添加地点天气温度的生成并实现自定义功能
 - **字体改进**：使用keep官方字体
+- **预设地图**：添加更多预设地图，更适合SYSU的使用
 
 
 ## 🛠️ 使用指南
@@ -45,6 +49,41 @@ KeepGenertion Web 是基于[KeepSultan](https://github.com/Carzit/KeepSultan)开
 - 平均步频（average_cadence）
 - 运动负荷（exercise_load）
 我们建议您上传的头像图片宽高比为1:1，地图图片宽高比为35:28
+
+
+## 本地部署
+
+本教程仅介绍最简单的开发环境下的Flask部署，生产环境推荐使用生产WSGI服务替代：
+
+1. 安装基础依赖：
+  sudo apt install -y python3-pip python3-venv nginx git
+2. 将项目git clone到/deploy目录下
+3. 创建虚拟环境
+   cd keep-html
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install flask pillow
+4. 创建服务文件：
+   创建 /etc/systemd/system/keep.service
+   添加内容：
+   [Unit]
+    Description=KeepGneration-Web
+    After=network.target
+
+   [Service]
+    User=root #此处假定为root用户，可自行修改
+    Group=root
+    WorkingDirectory=/deploy/keep-html #将下面三项的/deploy修改为对于部署目录
+    Environment="PATH=/deploy/keep-html/venv/bin"
+    ExecStart=/deploy/keep-html/venv/bin/python /deploy/keep-html/app.py
+
+   [Install]
+    WantedBy=multi-user.target
+5. 启动服务：
+   systemctl start keep.service
+   systemctl enable keep.service
+   端口号为5010，可通过systemctl status keep.service查看是否启动成功
+6. 配置nginx反代服务(可选)
 
 
 ## 📜 免责声明
