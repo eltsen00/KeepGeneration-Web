@@ -311,7 +311,10 @@ class KeepSultan:
 
         self.image_editor.add_text(str(total_time), (55, 1910), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #总时长
         self.image_editor.add_text(str(cumulative_climb), (445, 1910), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #累计爬升
-        self.image_editor.add_text(str(average_cadence), (800, 1910), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #平均步频
+        if(average_cadence > 100):
+            self.image_editor.add_text(str(average_cadence), (805, 1910), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #平均步频大于100
+        else:
+            self.image_editor.add_text(str(average_cadence), (835, 1910), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0))#平均步频小于100
         self.image_editor.add_text(str(exercise_load), (55, 2070), "fonts/QanelasSemiBold.otf", 65, (0, 0, 0)) #运动负荷
 
 def parse_args():
