@@ -59,30 +59,30 @@ KeepGenertion Web 是基于[KeepSultan](https://github.com/Carzit/KeepSultan)开
   sudo apt install -y python3-pip python3-venv nginx git
 2. 将项目git clone到/deploy目录下
 3. 创建虚拟环境
-   cd keep-html
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install flask pillow
+   cd keep-html  
+   python3 -m venv venv  
+   source venv/bin/activate  
+   pip install flask pillow  
 4. 创建服务文件：
-   创建 /etc/systemd/system/keep.service
-   添加内容：
-   [Unit]
-    Description=KeepGneration-Web
-    After=network.target
-
-   [Service]
-    User=root #此处假定为root用户，可自行修改
-    Group=root
-    WorkingDirectory=/deploy/keep-html #将下面三项的/deploy修改为对于部署目录
-    Environment="PATH=/deploy/keep-html/venv/bin"
-    ExecStart=/deploy/keep-html/venv/bin/python /deploy/keep-html/app.py
-
-   [Install]
-    WantedBy=multi-user.target
+   - 创建 /etc/systemd/system/keep.service
+   - 添加内容：
+   [Unit]  
+    Description=KeepGneration-Web  
+    After=network.target  
+  
+   [Service]  
+    User=root #此处假定为root用户，可自行修改  
+    Group=root  
+    WorkingDirectory=/deploy/keep-html #将下面三项的/deploy修改为对于部署目录  
+    Environment="PATH=/deploy/keep-html/venv/bin"  
+    ExecStart=/deploy/keep-html/venv/bin/python /deploy/keep-html/app.py  
+  
+   [Install]  
+    WantedBy=multi-user.target  
 5. 启动服务：
-   systemctl start keep.service
-   systemctl enable keep.service
-   端口号为5010，可通过systemctl status keep.service查看是否启动成功
+   systemctl start keep.service  
+   systemctl enable keep.service  
+   端口号为5010，可通过systemctl status keep.service查看是否启动成功  
 6. 配置nginx反代服务(可选)
 
 
